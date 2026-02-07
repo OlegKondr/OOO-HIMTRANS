@@ -1,0 +1,43 @@
+#include "worker.h"
+#include <iostream>
+
+// Конструктор по умолчанию
+WORKER::WORKER() 
+    : fio(""), position(""), salary(0.0), year_joined(0) {}
+
+// Конструктор с параметрами
+WORKER::WORKER(const std::string& f, const std::string& p, double s, int y)
+    : fio(f), position(p), salary(s), year_joined(y) {}
+
+// Копирующий конструктор
+WORKER::WORKER(const WORKER& other)
+    : fio(other.fio), position(other.position), salary(other.salary), year_joined(other.year_joined) {}
+
+// Деструктор
+WORKER::~WORKER() {}
+
+// Геттеры и сеттеры
+std::string WORKER::getFio() const { return fio; }
+void WORKER::setFio(const std::string& f) { fio = f; }
+
+std::string WORKER::getPosition() const { return position; }
+void WORKER::setPosition(const std::string& p) { position = p; }
+
+double WORKER::getSalary() const { return salary; }
+void WORKER::setSalary(double s) { salary = s; }
+
+int WORKER::getYearJoined() const { return year_joined; }
+void WORKER::setYearJoined(int y) { year_joined = y; }
+
+// Метод отображения информации о работнике
+void WORKER::display() const {
+    std::cout << "Ф. И. О.: " << fio << "\n"
+              << "Должность: " << position << "\n"
+              << "Зарплата: " << salary << " руб.\n"
+              << "Год поступления: " << year_joined << "\n";
+}
+
+// Метод расчёта стажа (на указанный год)
+int WORKER::getExperience(int current_year) const {
+    return current_year - year_joined;
+}
