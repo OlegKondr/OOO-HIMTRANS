@@ -1,0 +1,62 @@
+#include "worker.h"
+#include <iostream>
+#include <vector>
+#include <limits>
+
+int main() {
+    setlocale(LC_ALL, "Russian");  // для корректного отображения кириллицы
+
+    std::vector<WORKER> workers;  // динамический массив работников
+    int n, current_year = 2026;  // текущий год (можно менять)
+
+    std::cout << "Введите количество работников: ";
+    std::cin >> n;
+
+    // Ввод данных о работниках
+    for (int i = 0; i < n; ++i) {
+        std::string fio, position;
+        double salary;
+        int year_joined;
+
+        std::cout << "\nРаботник " << (i + 1) << ":\n";
+        std::cout << "Ф. И. О.: ";
+        std::cin.ignore();  // очищаем буфер
+        std::getline(std::cin, fio);
+
+        std::cout << "Должность: ";
+        std::getline(std::cin, position);
+
+        std::cout << "Зарплата (руб.): ";
+        std::cin >> salary;
+
+        std::cout << "Год поступления на работу: ";
+        std::cin >> year_joined;
+
+        // Создаём объект и добавляем в вектор
+        workers.emplace_back(fio, position, salary, year_joined);
+    }
+
+    // Ввод минимального стажа для поиска
+    int min_experience;
+    std::cout << "\nВведите минимальный стаж работы (лет): ";
+    std::cin >> min_experience;
+
+    // Поиск работников со стажем > min_experience
+    bool found = false;
+    std::cout << "\nРаботники со стажем более " << min_experience << " лет:\n";
+
+    for (const auto& worker : workers) {
+        int experience = worker.getExperience(current_year);
+        if (experience > min_experience) {
+            worker.display();
+            std::cout << "Стаж: " << experience << " лет\n\n";
+            found = true;
+        }
+    }
+
+    if (!found) {
+        std::cout << "Работников со стажем более " << min_experience << " лет не найдено.\n";
+    }
+
+    return 0;
+}
